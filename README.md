@@ -1,92 +1,138 @@
-
-# Module 3 -  Final Project Specifications
-
-## Introduction
-
-In this lesson, we'll review all the guidelines and specifications for the final project for Module 3.
-
-## Objectives
-
-* Understand all required aspects of the Final Project for Module 3
-* Understand all required deliverables
-* Understand what constitutes a successful project
-
-### Final Project Summary
-
-Another module down--you're half way there!
-
-<img src='https://raw.githubusercontent.com/learn-co-curriculum/dsc-mod-3-project/master/halfway-there.gif'>
-
-For the culmination of Module 3, you just need to complete the final project!
-
-### The Project
-
-For this project, you'll be working with the Northwind database--a free, open-source dataset created by Microsoft containing data from a fictional company. You probably remember the Northwind database from our section on Advanced SQL. Here's the schema for the Northwind database:
-
-<img src='https://raw.githubusercontent.com/learn-co-curriculum/dsc-mod-3-project/master/Northwind_ERD_updated.png'>
-
-The goal of this project is to test your ability to gather information from a real-world database and use your knowledge of statistical analysis and hypothesis testing to generate analytical insights that can be of value to the company.
-
-## The Deliverables
-
-The goal of your project is to query the database to get the data needed to perform a statistical analysis.  In this statistical analysis, you'll need to perform a hypothesis test (or perhaps several) to answer the following question:
-
-**_Does discount amount have a statistically significant effect on the quantity of a product in an order? If so, at what level(s) of discount?_**
-
-In addition to answering this question with a hypothesis test, you will also need to come up with **_at least 3 other hypotheses to test on your own_**.  These can by anything that you think could be imporant information for the company.
-
-For this hypothesis, be sure to specify both the **_null hypothesis_** and the **_alternative hypothesis_** for your question.  You should also specify if this is one-tail or a two-tail test.
-
-For online students, there will be four deliverables for this project:
-
-1. A **_Jupyter Notebook_** containing any code you've written for this project. This work will need to be pushed to your GitHub repository in order to submit your project.
-2. An organized **README.md** file in the GitHub repository that describes the contents of the repository. This file should be the source of information for navigating through the repository.
-3. A **_[Blog Post](https://github.com/learn-co-curriculum/dsc-welcome-blogging)_**.
-4. An **_"Executive Summary" PowerPoint Presentation_** that explains the hypothesis tests you ran, your findings, and their relevance to company stakeholders.  
-
-Note: On-campus students may have different delivarables, please speak with your instructor. 
-
-### Jupyter Notebook Must-Haves
-
-For this project, your Jupyter Notebook should meet the following specifications:
-
-**_Organization/Code Cleanliness_**
-
-* The notebook should be well organized, easy to follow, and code is commented where appropriate.  
-<br>  
-    * Level Up: The notebook contains well-formatted, professional looking markdown cells explaining any substantial code. All functions have docstrings that act as professional-quality documentation.  
-<br>      
-* The notebook is written to technical audiences with a way to both understand your approach and reproduce your results. The target audience for this deliverable is other data scientists looking to validate your findings.  
-<br>    
-* Any SQL code written to source data should also be included.  
-
-**_Findings_**
-
-* Your notebook should clearly show how you arrived at your results for each hypothesis test, including how you calculated your p-values.   
-<br>
-* You should also include any other statistics that you find relevant to your analysis, such as effect size.
-
-### Blog Post Must-Haves
-
-Refer back to the [Blogging Guidelines](https://github.com/learn-co-curriculum/dsc-welcome-blogging) for the technical requirements and blog ideas.
+# Informing Business Strategy With Hypothesis Testing
 
 
-### Executive Summary Must-Haves
+## The Objective
+Test 4 hypotheses using the data for a fictional food trading company, in order to create actionable recommendations to guide business strategy.
 
-Your presentation should:
+## The Motivation
+Using data to help guide business strategy is the bread and butter of any professional data scientist.
 
-* Contain between 5-10 professional quality slides detailing:
-<br>  
-    * A high-level overview of your methodology  
-    <br>  
-    * The results of your hypothesis tests  
-    <br>  
-    * Any real-world recommendations you would like to make based on your findings (ask yourself--why should the executive team care about what you found? How can your findings help the company?)  
-    <br>  
-* Take no more than 5 minutes to present  
-<br>  
-* Avoid technical jargon and explain results in a clear, actionable way for non-technical audiences.  
+Hypothesis testing is especially important, since it allows us to see if an observed correlation is in fact a causal relationship; a particular marketing method genuinely leads to better conversion, certain salespeople are genuinely better at building customer loyalty, a new store layout genuinely produces higher sales, and so forth.
 
-## Grading Rubric 
+## The Technologies Used
+* Pandas for Data Manipulation
+* Matplotlib / Seaborn for Data Visualisation
+* Numpy for creating the Monte Carlo simulation functions
 
-Online students can find a PDF of the grading rubric for this project [here](https://github.com/learn-co-curriculum/dsc-mod-3-project/blob/master/module3_project_rubric.pdf). _Note: On-campus students may have different requirements, please speak with your instructor._
+## The Process Overview
+The first step is deciding which hypotheses to test. This decision can be guided by a combination of two things:
+* Inspecting the data that's actually available to us
+* Working through an issue tree to understand the potential drivers of company performance
+
+We would then need to create a function that will efficiently perform Monte Carlo Simulations, which will form the basis of our tests (we could try to use more traditional methods, such as T-Tests, however this rests on a number of assumptions - namely that our data is normally distributed - something that is difficult to guarantee).
+
+### The Available Data
+The data is provided to us in an SQL database with the following Schema.
+
+![SQLSchema](https://github.com/calbal91/project-northwind-trading/blob/master/Images/Northwind_ERD_updated.png)
+
+Looking into some headline measures, we see that revenues are growing...
+
+![Revenue](https://github.com/calbal91/project-northwind-trading/blob/master/Images/NWRevenue.png)
+
+... but that this is being driven mostly by an increase in unique customers...
+
+![Customers](https://github.com/calbal91/project-northwind-trading/blob/master/Images/NWCustomers.png)
+
+... rather than a deepening of customer relationships
+
+![RevenuePerCustomer](https://github.com/calbal91/project-northwind-trading/blob/master/Images/NWRevPerCust.png)
+
+
+### The Issue Tree
+We can use an issue tree to explore the different drivers of company profits (rather than simply widening the customer base).
+
+![IssueTree](https://github.com/calbal91/project-northwind-trading/blob/master/Images/IssueTree.png)
+
+This allows us to pull out hypotheses that we know will have business relevance.
+
+
+## The Hypothesis Testing
+
+### On Monte Carlo Simulations
+
+We use Monte Carlo Simulations (of Permutation Tests) to test our hypotheses.
+
+![IssueTree](https://github.com/calbal91/project-northwind-trading/blob/master/Images/MCS1.png)
+
+![IssueTree](https://github.com/calbal91/project-northwind-trading/blob/master/Images/MCS2.png)
+
+The advantage of using Monte Carlo simulations is that we don't need to worry about the assumptions (e.g. normally distributed data) that are required for parametric tests like T-Tests.
+
+
+### Designing Hypothesis Tests
+
+Rather than 
+
+
+### Hypothesis 1: 
+We first address missing spurious data, dropping columns that are mostly NAN values.
+
+We can create histograms of each feature to check for outliers. We can trim any properties from the dataset that are vastly unrepresentitive of the property market (e.g. houses selling for more than $1m, or with more than 7 bedrooms, etc.)
+
+![Seattle](https://github.com/calbal91/project-king-county-housing/blob/master/Images/Distributions.png)
+
+There may also be hidden outliers, which are unrepresentitive, but may not show up if we look at the features in isolation. For example, properties may be very expensive relative to their size, but may have a price that might not look silly in and of itself. We can thus create new features, such as price per square foot, which will help us further narrow down the dataset.
+
+We can also visualise non-obvious categorical variables using scatter plots:
+
+![Seattle](https://github.com/calbal91/project-king-county-housing/blob/master/Images/Scatters.png)
+
+These will need to be one hot encoded ahead of modelling.
+
+### Geography
+One key visualisation that comes out of the EDA is a scatter plot of house latitude vs longitude. As expected, this produces a map.
+
+![Seattle](https://github.com/calbal91/project-king-county-housing/blob/master/Images/ScatterMap.png)
+
+As for the effect of geography on price, we can see that there appears to be some kind a north/south divide, however this is not universal (the very North of the map is mostly blue, lower value properties, having been mostly purple slightly further South). Thus, we can not assume a linear relationship between price, and either of longitude or latitude.
+
+However, it is clear that expensive properties are clustered. It may therefore be worth demarkating 'areas' within the dataset, based on the zipcode data. These can then be used as categories in a multivariate linear regression. Zipcode data is categoried (A-I) as per the zipcode map on the King County website: https://www.kingcounty.gov/services/gis/Maps/vmc/Boundaries.aspx
+
+* A - Seattle, Shoreline, Lake Forest Park
+* B - Kirkland, Kenmore, Bothell, Redmond, Woodinville
+* C - Bellevue, Mercer Island, Newcastle
+* D - Renton, Kent
+* E - Burien, Normandy Park, Des Moines, SeaTac, Tukwilla, Vashon Island
+* F - Federal Way, Auburn, Algona, Milton, Pacific
+* G - Sammamish, Issaquah, Carnation, Duvall
+* H - Covington, Maple Valley, Black Diamond, Enumclaw
+* I - Snoquaimie, North Bend
+
+![Seattle](https://github.com/calbal91/project-king-county-housing/blob/master/Images/KCZipCodes.jpg)
+
+## The Model Building
+
+To settle on the final features, we one-hot encode the categories as required, then perform some log transformations on a few variables to make them more 'normal' looking.
+
+![Seattle](https://github.com/calbal91/project-king-county-housing/blob/master/Images/LogScaled.png)
+
+We then go through an iterative process of removing features that have high levels of collinearity. This is necessary, since it is hard to seperate the effects of two features with high levels of collinearity - bad for the quality of the model.
+
+Having done this, Scikit Learn generates a linear model with an R^2 of about 0.67 - in other words, the model can explain about two-thirds of the variance we observe in the dependent variable. We can see the general accuracy of the model's predictive capacity:
+
+![Seattle](https://github.com/calbal91/project-king-county-housing/blob/master/Images/ModelPredictions.png)
+
+
+## The Model In Action
+
+By extracting the coefficients from the trained model, we can visualise how it predicts a house value in the following way:
+
+![Seattle](https://github.com/calbal91/project-king-county-housing/blob/master/Images/ModelOutline.jpg)
+
+
+We can then use the model to help us solve potential business cases pertaining to the King County housing market:
+
+### Example 1
+
+![Seattle](https://github.com/calbal91/project-king-county-housing/blob/master/Images/ModelCase1.jpg)
+
+
+### Example 2
+
+![Seattle](https://github.com/calbal91/project-king-county-housing/blob/master/Images/ModelCase2.jpg)
+
+
+### Example 3
+
+![Seattle](https://github.com/calbal91/project-king-county-housing/blob/master/Images/ModelCase3.jpg)
